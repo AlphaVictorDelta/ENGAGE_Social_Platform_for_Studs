@@ -47,7 +47,7 @@ def profile(username):
 
     tweets = Tweet.query.filter_by(user=user).order_by(Tweet.date_created.desc()).all()
 
-    current_time = datetime.now()
+    current_time = get_current_time()
 
     followed_by = user.followed_by.all()
 
@@ -58,15 +58,15 @@ def profile(username):
     elif current_user in followed_by:
         display_follow = False
 
-    who_to_watch = User.query.filter(User.id != user.id).order_by(db.func.random()).limit(4).all()
+    who_to_watch = who_to_watch_list(user)
 
     return render_template('profile.html', current_user=user, tweets=tweets, current_time=current_time, followed_by=followed_by, display_follow=display_follow, who_to_watch=who_to_watch, logged_in_user=current_user)
 
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('index'))
+def who_to_watch_list(user):
+    return User.query.filter(User.id != user.id).order_by(db.func.random()).limit(4).all()
+
+def get_current_time():
+    return datetime.now()
 
 @app.route('/timeline', defaults={'username' : None})
 @app.route('/timeline/<username>')
@@ -86,13 +86,19 @@ def timeline(username):
         tweets = Tweet.query.join(followers, (followers.c.followee_id == Tweet.user_id)).filter(followers.c.follower_id == current_user.id).order_by(Tweet.date_created.desc()).all()
         total_tweets = Tweet.query.filter_by(user=user).order_by(Tweet.date_created.desc()).count() 
 
-    current_time = datetime.now()
+    current_time = get_current_time()
 
     followed_by_count = user.followed_by.count()
 
-    who_to_watch = User.query.filter(User.id != user.id).order_by(db.func.random()).limit(4).all()
+    who_to_watch = who_to_watch_list(user)
 
     return render_template('timeline.html', form=form, tweets=tweets, current_time=current_time, current_user=user, total_tweets=total_tweets, who_to_watch=who_to_watch, logged_in_user=current_user, followed_by_count=followed_by_count)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 @app.route('/post_tweet', methods=['POST'])
 @login_required

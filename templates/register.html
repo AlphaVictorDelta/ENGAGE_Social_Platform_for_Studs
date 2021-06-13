@@ -1,28 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Register | Eng@ge!</title>
-
-		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="{{ url_for('static', filename='bs/css/united.min.css') }}">
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-	</head>
-	<body>
-
-		<div class="container-fluid">
-			<div class="row reg-page-banner" id="banner">
-				<div class="title col-lg-12">
-					<p class="title">
-						<a href="./">ENG@GE!</a>
-					</p>
-					<p class="subtitle">...the awesome social platform</p>
-				</div>
-			</div>
-		</div>
-
+{% extends "base.html" %}
+{% block nav %}{% endblock %}
+{% block content %}
 		<div class="container-fluid">
 			<div class="row pad">
 				<div class="col-lg-4 col-lg-offset-4 pad">
@@ -78,19 +56,4 @@
 					</div>
 				</div>
 			</div>
-
-			<footer>
-				<div class="row pad">
-					<div class="col-lg-12 text-center">
-						Copyright &copy; 2017 <strong> <a href="./">Eng@ge!</a></strong>
-					</div>
-				</div>
-			</footer>
-		</div>
-
-		<!-- jQuery -->
-		<script src="{{ url_for('static', filename='bs/js/jquery.min.js') }}"></script>
-		<!-- Bootstrap JavaScript -->
-		<script src="{{ url_for('static', filename='bs/js/bootstrap.min.js') }}"></script>
-	</body>
-</html>
+{% endblock %}
