@@ -44,7 +44,9 @@ def timeline():
 
 @app.route('/register')
 def register():
-    return render_template('register.html')
+    form = RegisterForm()
+
+    return render_template('register.html', form=form)
 
 if __name__ == '__main__':
     manager.run()
