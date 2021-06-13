@@ -39,6 +39,8 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(50))
     join_date = db.Column(db.DateTime)
 
+    tweets = db.relationship('Tweet', backref='user', lazy='dynamic')
+
 class Tweet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -106,7 +108,10 @@ def logout():
 def timeline():
     form = TweetForm()
 
-    return render_template('timeline.html', form=form)
+    user_id = current_user.id
+    tweets = Tweet.query.filter_by(user_id=user_id).order_by(Tweet.date_created.desc()).all()
+
+    return render_template('timeline.html', form=form, tweets=tweets)
 
 @app.route('/post_tweet', methods=['POST'])
 @login_required
