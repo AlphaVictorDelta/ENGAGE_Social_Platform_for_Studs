@@ -76,8 +76,13 @@
 							</li>
 							<li class="list-group-item">
 								<i class="glyphicon glyphicon-th-list"></i> FOLLOWERS COUNT: 
-								<strong class="pull-right">300</strong>
+								<strong class="pull-right">{{ followed_by|length }}</strong>
 							</li>
+							{% if display_follow %}
+							<li class="list-group-item">
+								&nbsp; <strong class="pull-right"><a href="{{ url_for('follow', username=current_user.username) }}">FOLLOW</a></strong>
+							</li>
+							{% endif %}
 						</ul>
 					</div>
 				</div>
@@ -123,21 +128,22 @@
 										{% endfor %}
 									</div>
 									<div role="tabpanel" class="tab-pane" id="followings">
+										{% for follower in followed_by %}
 										<div class="row">
 											<div class="col-lg-12">
 												<div class="row pad">
 													<div class="col-lg-2">
-														<img src="{{ url_for('static', filename='imgs/anonymous.png') }}" class="img-circle" style="width: 60px; height: 60px;" />
+														<img src="{{ follower.image }}" class="img-circle" style="width: 60px; height: 60px;" />
 													</div>
 													<div class="col-lg-10">
 														<div>
-															<strong class="mid">May Joanna</strong> 
-															<small><em>@real_mayJoanna</em></small>
+															<strong class="mid">{{ follower.name }}</strong> 
+															<small><em>@{{ follower.username }}</em></small>
 														</div>
 														<div class="row pad">
 															<hr />
 															<div class="col-lg-12">
-																<i class="glyphicon glyphicon-th-list"></i> 400,000
+																<i class="glyphicon glyphicon-th-list"></i> {{ follower.followed_by.all()|length }}
 																&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 															</div>
 														</div>
@@ -145,72 +151,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="row">
-											<div class="col-lg-12">
-												<div class="row pad">
-													<div class="col-lg-2">
-														<img src="{{ url_for('static', filename='imgs/anonymous.png') }}" class="img-circle" style="width: 60px; height: 60px;" />
-													</div>
-													<div class="col-lg-10">
-														<div>
-															<strong class="mid">Tracy Morgan</strong> 
-															<small><em>@tMorgan</em></small>
-														</div>
-														<div class="row pad">
-															<hr />
-															<div class="col-lg-12">
-																<i class="glyphicon glyphicon-th-list"></i> 195,565
-																&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-lg-12">
-												<div class="row pad">
-													<div class="col-lg-2">
-														<img src="{{ url_for('static', filename='imgs/anonymous.png') }}" class="img-circle" style="width: 60px; height: 60px;" />
-													</div>
-													<div class="col-lg-10">
-														<div>
-															<strong class="mid">Sameen Grooves</strong> 
-															<small><em>@sameenGrooves</em></small>
-														</div>
-														<div class="row pad">
-															<hr />
-															<div class="col-lg-12">
-																<i class="glyphicon glyphicon-th-list"></i> 233,267
-																&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-lg-12">
-												<div class="row pad">
-													<div class="col-lg-2">
-														<img src="{{ url_for('static', filename='imgs/anonymous.png') }}" class="img-circle" style="width: 60px; height: 60px;" />
-													</div>
-													<div class="col-lg-10">
-														<div>
-															<strong class="mid">Joss Ingram</strong> 
-															<small><em>@jIngramJ</em></small>
-														</div>
-														<div class="row pad">
-															<hr />
-															<div class="col-lg-12">
-																<i class="glyphicon glyphicon-th-list"></i> 1,060,056
-																&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
+										{% endfor %}
 									</div>
 								</div>
 							</div>
