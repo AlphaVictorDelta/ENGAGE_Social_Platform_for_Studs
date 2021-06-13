@@ -88,9 +88,11 @@ def timeline(username):
 
     current_time = datetime.now()
 
+    followed_by_count = user.followed_by.count()
+
     who_to_watch = User.query.filter(User.id != user.id).order_by(db.func.random()).limit(4).all()
 
-    return render_template('timeline.html', form=form, tweets=tweets, current_time=current_time, current_user=user, total_tweets=total_tweets, who_to_watch=who_to_watch, logged_in_user=current_user)
+    return render_template('timeline.html', form=form, tweets=tweets, current_time=current_time, current_user=user, total_tweets=total_tweets, who_to_watch=who_to_watch, logged_in_user=current_user, followed_by_count=followed_by_count)
 
 @app.route('/post_tweet', methods=['POST'])
 @login_required
