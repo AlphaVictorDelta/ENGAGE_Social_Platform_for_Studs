@@ -39,8 +39,11 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class=""><a href="{{ url_for('register') }}">Sign Up</a></li>
-                        <li class=""><a href="#login" data-toggle="modal" data-keyboard="false">Login</a></li>
+                        <li><a href="{{ url_for('register') }}">Sign Up</a></li>
+                        <li><a href="#login" data-toggle="modal" data-keyboard="false">Login</a></li>
+                        <li class="{% block timeline_active %}{% endblock %}"><a href="{{ url_for('timeline') }}">Timeline</a></li>
+                        <li class="{% block profile_active %}{% endblock %}"><a href="{{ url_for('profile') }}">My Profile</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div>
