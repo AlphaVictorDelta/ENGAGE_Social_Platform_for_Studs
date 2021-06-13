@@ -34,10 +34,22 @@ def login():
 
     return render_template('index.html', form=form)
 
-@app.route('/profile')
-@login_required
-def profile():
-    return render_template('profile.html', current_user=current_user)
+@app.route('/profile', defaults={'username' : None})
+@app.route('/profile/<username>')
+def profile(username):
+
+    if username:
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            abort(404)
+    else:
+        user = current_user
+
+    tweets = Tweet.query.filter_by(user=user).order_by(Tweet.date_created.desc()).all()
+
+    current_time = datetime.now()
+
+    return render_template('profile.html', current_user=user, tweets=tweets, current_time=current_time)
 
 @app.route('/logout')
 @login_required
@@ -55,12 +67,10 @@ def timeline(username):
         if not user:
             abort(404)
 
-        user_id = user.id
     else:
         user = current_user
-        user_id = current_user.id
 
-    tweets = Tweet.query.filter_by(user_id=user_id).order_by(Tweet.date_created.desc()).all()
+    tweets = Tweet.query.filter_by(user=user).order_by(Tweet.date_created.desc()).all()
     total_tweets = len(tweets)
 
     current_time = datetime.now()
