@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy 
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager 
@@ -9,6 +9,7 @@ from flask_wtf.file import FileField, FileAllowed
 from flask_uploads import UploadSet, configure_uploads, IMAGES
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, current_user, logout_user
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -20,6 +21,7 @@ app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'ksdlfkdsofidsithnaljnfadksjhfdskjfbnjewrhewuirhfsenfdsjkfhdksjhfdslfjasldkj'
 
 login_manager = LoginManager(app)
+login_manager.login_view = 'login'
 
 configure_uploads(app, photos)
 
@@ -35,6 +37,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(30))
     image = db.Column(db.String(100))
     password = db.Column(db.String(50))
+    join_date = db.Column(db.DateTime)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -47,41 +50,48 @@ class RegisterForm(FlaskForm):
     image = FileField(validators=[FileAllowed(IMAGES, 'Only images are accepted.')])
 
 class LoginForm(FlaskForm):
-    username = StringField('Username')
-    password = PasswordField('Password')
+    username = StringField('Username', validators=[InputRequired('Username is required.'), Length(max=30, message='Your username is too many characters.')])
+    password = PasswordField('Password', validators=[InputRequired('A password is required.')])
     remember = BooleanField('Remember me')
 
 @app.route('/')
 def index():
     form = LoginForm()
 
-    if form.validate_on_submit():
-        return '<h1>Username: {}, Password: {}, Remember: {}</h1>'.format(form.username.data, form.password.data, form.remember.data)
-
     return render_template('index.html', form=form)
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == 'GET':
+        return redirect(url_for('index'))
+
     form = LoginForm()
 
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
 
         if not user:
-            return 'Login failed'
+            return render_template('index.html', form=form, message='Login Failed!')
 
         if check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
 
             return redirect(url_for('profile'))
 
-        return 'Login failed'
+        return render_template('index.html', form=form, message='Login Failed!')
 
-    return redirect(url_for('index'))
+    return render_template('index.html', form=form)
 
 @app.route('/profile')
+@login_required
 def profile():
-    return render_template('profile.html')
+    return render_template('profile.html', current_user=current_user)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 @app.route('/timeline')
 def timeline():
@@ -95,7 +105,7 @@ def register():
         image_filename = photos.save(form.image.data)
         image_url = photos.url(image_filename)
 
-        new_user = User(name=form.name.data, username=form.username.data, image=image_url, password=generate_password_hash(form.password.data))
+        new_user = User(name=form.name.data, username=form.username.data, image=image_url, password=generate_password_hash(form.password.data), join_date=datetime.now())
         db.session.add(new_user)
         db.session.commit()
 

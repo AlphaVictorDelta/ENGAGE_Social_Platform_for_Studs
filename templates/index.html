@@ -39,7 +39,7 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li class=""><a href="./register.html">Sign Up</a></li>
+						<li class=""><a href="{{ url_for('register') }}">Sign Up</a></li>
 						<li class=""><a href="#login" data-toggle="modal" data-keyboard="false">Login</a></li>
 					</ul>
 				</div><!-- /.navbar-collapse -->
@@ -64,12 +64,21 @@
 										</h3>
 									</div>
 									<form method="POST" action="{{ url_for('login') }}">
+									    {% if message %}
+									    	<span style="color:red;">{{ message }}</span>
+									    {% endif %}
 										{{ form.csrf_token }}
 										<div class="form-group">
 											{{ form.username(class='form-control', placeholder='Username') }}
+											{% for error in form.username.errors %}
+					    						<li style="color:red;">{{ error }}</li>
+					    					{% endfor %}
 										</div>
 										<div class="form-group">
 											{{ form.password(class='form-control', placeholder='Password') }}
+											{% for error in form.password.errors %}
+					    						<li style="color:red;">{{ error }}</li>
+					    					{% endfor %}
 										</div>
 										<div class="form-group">
 											<div class="checkbox-inline">
