@@ -51,10 +51,13 @@ def timeline():
 
     user_id = current_user.id
     tweets = Tweet.query.filter_by(user_id=user_id).order_by(Tweet.date_created.desc()).all()
+    total_tweets = len(tweets)
 
     current_time = datetime.now()
 
-    return render_template('timeline.html', form=form, tweets=tweets, current_time=current_time)
+
+
+    return render_template('timeline.html', form=form, tweets=tweets, current_time=current_time, current_user=current_user, total_tweets=total_tweets)
 
 @app.route('/post_tweet', methods=['POST'])
 @login_required
