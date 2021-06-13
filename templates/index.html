@@ -63,7 +63,7 @@
 											<a href="./">ENG@GE!</a>
 										</h3>
 									</div>
-									<form method="POST" action="{{ url_for('index') }}">
+									<form method="POST" action="{{ url_for('login') }}">
 										{{ form.csrf_token }}
 										<div class="form-group">
 											{{ form.username(class='form-control', placeholder='Username') }}
