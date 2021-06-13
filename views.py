@@ -51,14 +51,7 @@ def profile(username):
 
     followed_by = user.followed_by.all()
 
-    display_follow = True
-
-    if current_user == user:
-        display_follow = False
-    elif current_user in followed_by:
-        display_follow = False
-
-    return render_template('profile.html', current_user=user, tweets=tweets, current_time=current_time, followed_by=followed_by, display_follow=display_follow)
+    return render_template('profile.html', current_user=user, tweets=tweets, current_time=current_time, followed_by=followed_by)
 
 @app.route('/logout')
 @login_required
@@ -111,8 +104,6 @@ def register():
         new_user = User(name=form.name.data, username=form.username.data, image=image_url, password=generate_password_hash(form.password.data), join_date=datetime.now())
         db.session.add(new_user)
         db.session.commit()
-
-        login_user(new_user)
 
         return redirect(url_for('profile'))
 
