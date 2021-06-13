@@ -42,9 +42,12 @@ def profile():
 def timeline():
     return render_template('timeline.html')
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
+
+    if form.validate_on_submit():
+        return '<h1>Name: {}, Username: {}, Password: {}</h1>'.format(form.name.data, form.username.data, form.password.data)
 
     return render_template('register.html', form=form)
 
