@@ -7,8 +7,8 @@
 		<title>Home | Eng@ge!</title>
 
 		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="./bs/css/united.min.css">
-		<link rel="stylesheet" href="./css/styles.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='bs/css/united.min.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 	</head>
 	<body>
 
@@ -98,8 +98,8 @@
 		</div>
 
 		<!-- jQuery -->
-		<script src="./bs/js/jquery.min.js"></script>
+		<script src="{{ url_for('static', filename='bs/js/jquery.min.js') }}"></script>
 		<!-- Bootstrap JavaScript -->
-		<script src="./bs/js/bootstrap.min.js"></script>
+		<script src="{{ url_for('static', filename='bs/js/bootstrap.min.js') }}"></script>
 	</body>
 </html>

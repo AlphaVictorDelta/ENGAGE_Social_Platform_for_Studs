@@ -7,8 +7,8 @@
 		<title>Timeline | Eng@ge!</title>
 
 		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="./bs/css/united.min.css">
-		<link rel="stylesheet" href="./css/styles.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='bs/css/united.min.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 	</head>
 	<body>
 
@@ -58,7 +58,7 @@
 						<div class="panel-body">
 							<div class="row pad">
 								<div class="col-lg-12">
-									<img src="./imgs/anonymous.png" class="img-responsive img-circle center-block" alt="Image" />
+									<img src="{{ url_for('static', filename='imgs/anonymous.png') }}" class="img-responsive img-circle center-block" alt="Image" />
 								</div>
 							</div>
 							<div class="row pad">
@@ -94,7 +94,7 @@
 											<div class="row">
 												<div class="col-lg-10">
 													<!-- <i class="glyphicon glyphicon-user"></i>  -->
-													<img src="./imgs/anonymous.png" style="width: 30px; height: 30px;" class="img-circle">
+													<img src="{{ url_for('static', filename='imgs/anonymous.png') }}" style="width: 30px; height: 30px;" class="img-circle">
 													<strong>Ashton Dennis</strong> 
 													<small><em>@ashtonDennis</em></small>
 												</div>
@@ -118,7 +118,7 @@
 											<div class="row">
 												<div class="col-lg-10">
 													<!-- <i class="glyphicon glyphicon-user"></i>  -->
-													<img src="./imgs/anonymous.png" style="width: 30px; height: 30px;" class="img-circle">
+													<img src="{{ url_for('static', filename='imgs/anonymous.png') }}" style="width: 30px; height: 30px;" class="img-circle">
 													<strong>Ashton Dennis</strong> 
 													<small><em>@ashtonDennis</em></small>
 												</div>
@@ -142,7 +142,7 @@
 											<div class="row">
 												<div class="col-lg-10">
 													<!-- <i class="glyphicon glyphicon-user"></i>  -->
-													<img src="./imgs/anonymous.png" style="width: 30px; height: 30px;" class="img-circle">
+													<img src="{{ url_for('static', filename='imgs/anonymous.png') }}" style="width: 30px; height: 30px;" class="img-circle">
 													<strong>Ashton Dennis</strong> 
 													<small><em>@ashtonDennis</em></small>
 												</div>
@@ -166,7 +166,7 @@
 											<div class="row">
 												<div class="col-lg-10">
 													<!-- <i class="glyphicon glyphicon-user"></i>  -->
-													<img src="./imgs/anonymous.png" style="width: 30px; height: 30px;" class="img-circle">
+													<img src=".{{ url_for('static', filename='imgs/anonymous.png') }}" style="width: 30px; height: 30px;" class="img-circle">
 													<strong>Ashton Dennis</strong> 
 													<small><em>@ashtonDennis</em></small>
 												</div>
@@ -190,7 +190,7 @@
 											<div class="row">
 												<div class="col-lg-10">
 													<!-- <i class="glyphicon glyphicon-user"></i>  -->
-													<img src="./imgs/anonymous.png" style="width: 30px; height: 30px;" class="img-circle">
+													<img src="{{ url_for('static', filename='imgs/anonymous.png') }}" style="width: 30px; height: 30px;" class="img-circle">
 													<strong>Dana Mali</strong> 
 													<small><em>@denaMALI</em></small>
 												</div>
@@ -300,8 +300,8 @@
 		</div>
 
 		<!-- jQuery -->
-		<script src="./bs/js/jquery.min.js"></script>
+		<script src="{{ url_for('static', filename='bs/js/jquery.min.js') }}"></script>
 		<!-- Bootstrap JavaScript -->
-		<script src="./bs/js/bootstrap.min.js"></script>
+		<script src="{{ url_for('static', filename='bs/js/bootstrap.min.js') }}"></script>
 	</body>
 </html>
