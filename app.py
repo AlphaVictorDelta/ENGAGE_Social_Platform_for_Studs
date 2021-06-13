@@ -39,6 +39,12 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(50))
     join_date = db.Column(db.DateTime)
 
+class Tweet(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    text = db.Column(db.String(140))
+    date_created = db.Column(db.DateTime)
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
