@@ -1,5 +1,5 @@
 from app import app, photos, db
-from models import User, Tweet, followers
+from models import User, Tweet
 from forms import RegisterForm, LoginForm, TweetForm
 from flask import render_template, redirect, url_for, request, abort
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -76,15 +76,11 @@ def timeline(username):
         if not user:
             abort(404)
 
-        tweets = Tweet.query.filter_by(user=user).order_by(Tweet.date_created.desc()).all()    
-        total_tweets = len(tweets)
-
     else:
         user = current_user
-        tweets = Tweet.query.join(followers, (followers.c.followee_id == Tweet.user_id)).filter(followers.c.follower_id == current_user.id).order_by(Tweet.date_created.desc()).all()
-        total_tweets = Tweet.query.filter_by(user=user).order_by(Tweet.date_created.desc()).count() 
-    
-    
+
+    tweets = Tweet.query.filter_by(user=user).order_by(Tweet.date_created.desc()).all()
+    total_tweets = len(tweets)
 
     current_time = datetime.now()
 
@@ -115,8 +111,6 @@ def register():
         new_user = User(name=form.name.data, username=form.username.data, image=image_url, password=generate_password_hash(form.password.data), join_date=datetime.now())
         db.session.add(new_user)
         db.session.commit()
-
-        login_user(new_user)
 
         return redirect(url_for('profile'))
 
