@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager 
 from flask_wtf import FlaskForm 
-from wtforms import StringField, PasswordField, BooleanField
+from wtforms import StringField, PasswordField, BooleanField, TextAreaField
 from wtforms.validators import InputRequired, Length
 from flask_wtf.file import FileField, FileAllowed
 from flask_uploads import UploadSet, configure_uploads, IMAGES
@@ -60,6 +60,9 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[InputRequired('A password is required.')])
     remember = BooleanField('Remember me')
 
+class TweetForm(FlaskForm):
+    text = TextAreaField('Message', validators=[InputRequired('Message is required.')])
+
 @app.route('/')
 def index():
     form = LoginForm()
@@ -101,7 +104,23 @@ def logout():
 
 @app.route('/timeline')
 def timeline():
-    return render_template('timeline.html')
+    form = TweetForm()
+
+    return render_template('timeline.html', form=form)
+
+@app.route('/post_tweet', methods=['POST'])
+@login_required
+def post_tweet():
+    form = TweetForm()
+
+    if form.validate():
+        tweet = Tweet(user_id=current_user.id, text=form.text.data, date_created=datetime.now())
+        db.session.add(tweet)
+        db.session.commit()
+
+        return redirect(url_for('timeline'))
+
+    return 'Something went wrong.'
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
