@@ -100,7 +100,7 @@
 														<small><em>@{{ tweet.user.username }}</em></small>
 													</div>
 													<div class="col-lg-2 text-right">
-														15m
+														{{ (current_time - tweet.date_created)|time_since }}
 													</div>
 												</div>
 												<div class="row pad">
