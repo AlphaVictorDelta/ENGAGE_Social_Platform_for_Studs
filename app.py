@@ -4,7 +4,7 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////mnt/c/User/antho/Documents/twitter_clone/engage.db'
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
