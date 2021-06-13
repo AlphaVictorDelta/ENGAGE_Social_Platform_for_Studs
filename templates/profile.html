@@ -126,6 +126,7 @@
 											</div>
 										</div>
 										{% endfor %}
+										<br><a href="{{ url_for('timeline', username=current_user.username) }}">More</a>
 									</div>
 									<div role="tabpanel" class="tab-pane" id="followings">
 										{% for follower in followed_by %}
